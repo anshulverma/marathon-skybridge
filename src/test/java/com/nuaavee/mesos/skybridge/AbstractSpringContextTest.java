@@ -13,7 +13,7 @@ import org.springframework.web.context.WebApplicationContext;
 @ContextConfiguration(classes = {TestSkyBridgeConfiguration.class, SkyBridgeConfiguration.class})
 @Configuration
 @WebAppConfiguration
-public class AbstractSpringContextTest extends AbstractJUnit4SpringContextTests {
+public abstract class AbstractSpringContextTest extends AbstractJUnit4SpringContextTests {
 
   @Autowired
   protected WebApplicationContext applicationContext;
