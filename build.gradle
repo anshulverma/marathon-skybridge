@@ -25,11 +25,11 @@ repositories {
 }
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web")
-  compile("org.springframework.boot:spring-boot-starter-actuator")
+  compile("org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE")
+  compile("org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE")
 
-  testCompile("org.springframework.boot:spring-boot-starter-test")
-  testCompile("junit:junit")
+  testCompile("org.springframework.boot:spring-boot-starter-test:1.2.5.RELEASE")
+  testCompile("junit:junit:4.12")
   testCompile('com.jayway.jsonpath:json-path:2.0.0')
 }
 
