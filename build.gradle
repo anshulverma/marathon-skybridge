@@ -3,7 +3,8 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE")
+    classpath('org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE')
+    classpath('com.google.protobuf:protobuf-gradle-plugin:0.5.0')
   }
 }
 
@@ -11,6 +12,22 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'com.google.protobuf'
+
+def protobufDir = "$projectDir/proto"
+
+sourceSets {
+  main {
+    proto {
+      srcDir 'src/main/resources/proto'
+    }
+  }
+  proto {
+    java {
+      srcDir "$protobufDir/main/java"
+    }
+  }
+}
 
 jar {
   baseName = 'mesos-skydns-bridge'
@@ -25,12 +42,20 @@ repositories {
 }
 
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE")
-  compile("org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE")
+  compile('org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE')
+  compile('org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE')
+  compile('com.google.protobuf:protobuf-java:3.0.0-alpha-2')
 
-  testCompile("org.springframework.boot:spring-boot-starter-test:1.2.5.RELEASE")
-  testCompile("junit:junit:4.12")
+  testCompile('org.springframework.boot:spring-boot-starter-test:1.2.5.RELEASE')
+  testCompile('junit:junit:4.12')
   testCompile('com.jayway.jsonpath:json-path:2.0.0')
+}
+
+protobuf {
+  protoc {
+    artifact = 'com.google.protobuf:protoc:3.0.0-alpha-3.1'
+  }
+  generatedFilesBaseDir = protobufDir
 }
 
 task wrapper(type: Wrapper) {
