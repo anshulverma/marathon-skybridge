@@ -4,7 +4,6 @@ buildscript {
   }
   dependencies {
     classpath('org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE')
-    classpath('com.google.protobuf:protobuf-gradle-plugin:0.5.0')
   }
 }
 
