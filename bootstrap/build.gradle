@@ -1,0 +1,23 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath('org.springframework.boot:spring-boot-gradle-plugin:1.2.5.RELEASE')
+  }
+}
+
+apply plugin: 'spring-boot'
+
+description = 'bootstrap the application'
+
+jar {
+  baseName = 'mesos-skydns-bridge'
+  version = '0.0.1'
+}
+
+dependencies {
+  compile("org.springframework.boot:spring-boot-starter-web:$project.ext.springBootVersion")
+  compile("org.springframework.boot:spring-boot-starter-actuator:$project.ext.springBootVersion")
+  compile project(":core")
+}
