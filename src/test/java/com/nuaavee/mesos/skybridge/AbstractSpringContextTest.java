@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@ContextConfiguration(classes = {TestSkyBridgeConfiguration.class, SkyBridgeConfiguration.class})
+@ContextConfiguration(classes = {TestSkyBridgeConfiguration.class})
 @Configuration
 @WebAppConfiguration
 public abstract class AbstractSpringContextTest extends AbstractJUnit4SpringContextTests {

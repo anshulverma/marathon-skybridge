@@ -27,6 +27,12 @@ repositories {
 dependencies {
   compile('org.springframework.boot:spring-boot-starter-web:1.2.5.RELEASE')
   compile('org.springframework.boot:spring-boot-starter-actuator:1.2.5.RELEASE')
+  compile('com.fasterxml.jackson.core:jackson-databind:2.6.0-rc4')
+  compile('org.projectlombok:lombok:1.16.4')
+  compile('com.google.guava:guava:18.0')
+  compile('org.apache.commons:commons-lang3:3.4')
+  compile('joda-time:joda-time:2.8.1')
+  compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.0-rc4')
 
   testCompile('org.springframework.boot:spring-boot-starter-test:1.2.5.RELEASE')
   testCompile('junit:junit:4.12')

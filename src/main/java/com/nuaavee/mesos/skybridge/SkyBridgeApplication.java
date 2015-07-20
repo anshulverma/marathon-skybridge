@@ -4,9 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SkyBridgeConfiguration {
+public class SkyBridgeApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(SkyBridgeConfiguration.class, args);
+    SpringApplication.run(SkyBridgeContext.class, args);
   }
+
 }
