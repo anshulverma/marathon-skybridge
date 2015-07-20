@@ -6,11 +6,11 @@ import com.google.common.collect.ImmutableMap;
 
 public enum EventType {
 
-  UNKNOWN(StringUtils.EMPTY, null),
-  SUBSCRIBE("subscribe_event", SubscribeEvent.class),
-  DEPLOYMENT_INFO("deployment_info", DeploymentInfoEvent.class),
-  DEPLOYMENT_SUCCESS("deployment_success", DeploymentSuccessEvent.class),
-  STATUS_UPDATE("status_update_event", StatusUpdateEvent.class);
+  UNKNOWN(StringUtils.EMPTY),
+  SUBSCRIBE("subscribe_event"),
+  DEPLOYMENT_INFO("deployment_info"),
+  DEPLOYMENT_SUCCESS("deployment_success"),
+  STATUS_UPDATE("status_update_event");
 
   private static final Map<String, EventType> LOOKUP;
 
@@ -26,19 +26,13 @@ public enum EventType {
   }
 
   private final String name;
-  private final Class<? extends MarathonEvent> eventClass;
 
-  private EventType(String name, Class<? extends MarathonEvent> eventClass) {
+  private EventType(String name) {
     this.name = name;
-    this.eventClass = eventClass;
   }
 
   public String getName() {
     return name;
-  }
-
-  public Class<? extends MarathonEvent> getEventClass() {
-    return eventClass;
   }
 
   public static EventType forName(String name) {
