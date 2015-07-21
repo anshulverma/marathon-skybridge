@@ -1,0 +1,6 @@
+{
+  "eventType": "subscribe_event",
+  "timestamp": "2014-03-01T23:29:30.158Z",
+  "clientIp": "1.2.3.4",
+  "callbackUrl": "http://subscriber.acme.org/callbacks"
+}

@@ -9,5 +9,6 @@ dependencies {
 
   testCompile("org.springframework.boot:spring-boot-starter-test:$project.ext.springBootVersion")
   testCompile('junit:junit:4.12')
+  testCompile('commons-io:commons-io:2.4')
 }
 

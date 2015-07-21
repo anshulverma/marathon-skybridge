@@ -1,6 +1,8 @@
 package com.nuaavee.skybridge.events.type;
 
+import java.util.List;
 import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,6 +12,66 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class DeploymentInfoEvent extends MarathonEvent {
 
-  private DateTime timestamp;
+  private Plan plan;
 
+  private Step currentStep;
+
+  @Data
+  @EqualsAndHashCode
+  @ToString
+  public static class Plan {
+
+    private String id;
+
+    private DateTime version;
+
+    private Group original;
+
+    private Group target;
+
+    private List<Step> steps;
+
+  }
+
+  @Data
+  @EqualsAndHashCode
+  @ToString
+  public static class Group {
+
+    private String id;
+
+    private DateTime version;
+
+    private List<String> dependencies;
+
+    private List<Group> groups;
+
+    private List<Service> apps;
+
+  }
+
+  @Data
+  @EqualsAndHashCode
+  @ToString
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static class Service {
+
+    private String id;
+
+    private DateTime version;
+
+    private int[] ports;
+
+  }
+
+  @Data
+  @EqualsAndHashCode
+  @ToString
+  public static class Step {
+
+    private String action;
+
+    private String app;
+
+  }
 }
