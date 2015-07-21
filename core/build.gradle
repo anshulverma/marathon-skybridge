@@ -12,4 +12,3 @@ dependencies {
   testCompile('junit:junit:4.12')
   testCompile('com.jayway.jsonpath:json-path:2.0.0')
 }
-
