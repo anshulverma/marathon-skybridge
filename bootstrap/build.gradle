@@ -19,5 +19,5 @@ jar {
 dependencies {
   compile("org.springframework.boot:spring-boot-starter-web:$project.ext.springBootVersion")
   compile("org.springframework.boot:spring-boot-starter-actuator:$project.ext.springBootVersion")
-  compile project(":core")
+  compile project(':core')
 }
