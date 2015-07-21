@@ -2,6 +2,7 @@ package com.nuaavee.skybridge.events;
 
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.google.common.collect.ImmutableMap;
 
 public enum EventType {
@@ -35,6 +36,7 @@ public enum EventType {
     return name;
   }
 
+  @JsonCreator
   public static EventType forName(String name) {
     if (!LOOKUP.containsKey(name)) {
       return UNKNOWN;

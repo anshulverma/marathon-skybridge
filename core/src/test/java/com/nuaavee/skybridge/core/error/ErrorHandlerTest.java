@@ -1,8 +1,9 @@
-package com.nuaavee.skybridge.core;
+package com.nuaavee.skybridge.core.error;
 
 import java.io.IOException;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.nuaavee.skybridge.core.AbstractSpringContextTest;
 import com.nuaavee.skybridge.events.EventMarshaller;
 import com.nuaavee.skybridge.events.UnknownEventTypeException;
 import static org.hamcrest.CoreMatchers.is;

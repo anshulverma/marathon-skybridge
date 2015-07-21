@@ -15,9 +15,6 @@ import com.nuaavee.skybridge.events.EventMarshaller;
 import com.nuaavee.skybridge.events.EventProcessor;
 import com.nuaavee.skybridge.events.UnknownEventTypeException;
 import com.nuaavee.skybridge.events.type.MarathonEvent;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 @Controller
 public class EventCallbackController {
@@ -32,28 +29,16 @@ public class EventCallbackController {
 
   @RequestMapping(value = "/event", method = RequestMethod.POST)
   @ResponseBody
-  public EventHandlerResponse eventCallback(@RequestBody String eventJson)
+  public RestResponse eventCallback(@RequestBody String eventJson)
     throws RestMvcException, UnknownEventTypeException {
 
     try {
       MarathonEvent event = eventMarshaller.unmarshall(eventJson);
-      LOG.info("received event '{}'", event.getEventType());
       eventProcessor.process(event);
-      LOG.info(event.toString());
-      return EventHandlerResponse.OK;
+      return new RestResponse("success");
     } catch (IOException e) {
       LOG.error("error while converting event json: " + eventJson);
       throw new JsonParsingException(e);
     }
-  }
-
-  @Data
-  @AllArgsConstructor(access = AccessLevel.PRIVATE)
-  private static class EventHandlerResponse {
-    public static final EventHandlerResponse IGNORED = new EventHandlerResponse("ignored");
-    public static final EventHandlerResponse OK = new EventHandlerResponse("ok");
-    public static final EventHandlerResponse ERROR = new EventHandlerResponse("error");
-
-    private String result;
   }
 }

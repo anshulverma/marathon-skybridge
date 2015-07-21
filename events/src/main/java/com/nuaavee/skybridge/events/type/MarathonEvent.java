@@ -1,6 +1,7 @@
 package com.nuaavee.skybridge.events.type;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.nuaavee.skybridge.events.EventType;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,8 +13,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MarathonEvent {
+public abstract class MarathonEvent {
 
-  private String eventType;
+  private EventType eventType;
 
 }
