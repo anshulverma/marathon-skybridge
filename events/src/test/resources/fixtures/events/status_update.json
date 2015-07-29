@@ -7,5 +7,6 @@
   "appId": "/my-app",
   "host": "slave-1234.acme.org",
   "ports": [31372],
-  "version": "2014-04-04T06:26:23.051Z"
+  "version": "2014-04-04T06:26:23.051Z",
+  "message": "something happened"
 }

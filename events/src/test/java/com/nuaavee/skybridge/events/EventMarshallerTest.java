@@ -28,7 +28,7 @@ public class EventMarshallerTest {
     return Arrays.asList(new Object[][] {
       {
         EventType.SUBSCRIBE,
-        "features/events/subscribe.json",
+        "fixtures/events/subscribe.json",
         (MarathonEventBuilder) () -> {
           SubscribeEvent event = new SubscribeEvent();
           event.setEventType(EventType.SUBSCRIBE);
@@ -40,7 +40,7 @@ public class EventMarshallerTest {
       },
       {
         EventType.STATUS_UPDATE,
-        "features/events/status_update.json",
+        "fixtures/events/status_update.json",
         (MarathonEventBuilder) () -> {
           StatusUpdateEvent event = new StatusUpdateEvent();
           event.setEventType(EventType.STATUS_UPDATE);
@@ -52,12 +52,13 @@ public class EventMarshallerTest {
           event.setHost("slave-1234.acme.org");
           event.setPorts(new int[] {31372});
           event.setVersion(new DateTime("2014-04-04T06:26:23.051Z", DateTimeZone.UTC));
+          event.setMessage("something happened");
           return event;
         }
       },
       {
         EventType.DEPLOYMENT_SUCCESS,
-        "features/events/deployment_success.json",
+        "fixtures/events/deployment_success.json",
         (MarathonEventBuilder) () -> {
           DeploymentSuccessEvent event = new DeploymentSuccessEvent();
           event.setEventType(EventType.DEPLOYMENT_SUCCESS);
@@ -68,15 +69,17 @@ public class EventMarshallerTest {
       },
       {
         EventType.DEPLOYMENT_INFO,
-        "features/events/deployment_info.json",
+        "fixtures/events/deployment_info.json",
         (MarathonEventBuilder) () -> {
           DeploymentInfoEvent event = new DeploymentInfoEvent();
           event.setEventType(EventType.DEPLOYMENT_INFO);
           event.setTimestamp(new DateTime("2014-03-01T23:29:30.158Z", DateTimeZone.UTC));
 
           DeploymentInfoEvent.Step currentStep = new DeploymentInfoEvent.Step();
-          currentStep.setAction("ScaleApplication");
-          currentStep.setApp("/my-app");
+          DeploymentInfoEvent.Action currentAction = new DeploymentInfoEvent.Action();
+          currentAction.setType("ScaleApplication");
+          currentAction.setApp("/my-app");
+          currentStep.setActions(Lists.newArrayList(currentAction));
           event.setCurrentStep(currentStep);
 
           DeploymentInfoEvent.Plan plan = new DeploymentInfoEvent.Plan();
@@ -106,8 +109,10 @@ public class EventMarshallerTest {
           plan.setTarget(targetGroup);
 
           DeploymentInfoEvent.Step step = new DeploymentInfoEvent.Step();
-          step.setAction("ScaleApplication");
-          step.setApp("/my-app");
+          DeploymentInfoEvent.Action stepAction = new DeploymentInfoEvent.Action();
+          stepAction.setType("ScaleApplication");
+          stepAction.setApp("/my-app");
+          step.setActions(Lists.newArrayList(stepAction));
           plan.setSteps(Lists.newArrayList(step));
 
           event.setPlan(plan);

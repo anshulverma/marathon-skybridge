@@ -37,7 +37,7 @@ public class EventCallbackController {
       eventProcessor.process(event);
       return new RestResponse("success");
     } catch (IOException e) {
-      LOG.error("error while converting event json: " + eventJson);
+      LOG.error("error while converting event json: " + eventJson, e);
       throw new JsonParsingException(e);
     }
   }

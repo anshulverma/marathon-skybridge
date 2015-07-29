@@ -11,18 +11,20 @@ import lombok.ToString;
 @ToString(callSuper = true)
 public class StatusUpdateEvent extends MarathonEvent {
 
-    private String slaveId;
+  private String slaveId;
 
-    private String taskId;
+  private String taskId;
 
-    private TaskStatus taskStatus;
+  private TaskStatus taskStatus;
 
-    private String appId;
+  private String appId;
 
-    private String host;
+  private String host;
 
-    private int[] ports;
+  private int[] ports;
 
-    private DateTime version;
+  private DateTime version;
+
+  private String message;
 
 }

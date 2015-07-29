@@ -46,14 +46,22 @@
     },
     "steps": [
       {
-        "action": "ScaleApplication",
-        "app": "/my-app"
+        "actions": [
+          {
+            "type": "ScaleApplication",
+            "app": "/my-app"
+          }
+        ]
       }
     ],
     "version": "2014-03-01T23:24:14.846Z"
   },
   "currentStep": {
-    "action": "ScaleApplication",
-    "app": "/my-app"
+    "actions": [
+      {
+        "type": "ScaleApplication",
+        "app": "/my-app"
+      }
+    ]
   }
 }

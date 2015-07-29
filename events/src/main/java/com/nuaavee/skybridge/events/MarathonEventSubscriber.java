@@ -20,7 +20,7 @@ public class MarathonEventSubscriber {
   }
 
   public void subscribe(String marathonURL, String callbackURL) {
-    sendRequest(HttpMethod.DELETE, marathonURL, callbackURL);
+    sendRequest(HttpMethod.POST, marathonURL, callbackURL);
   }
 
   private void sendRequest(HttpMethod httpMethod, String marathonURL, String callbackURL) {

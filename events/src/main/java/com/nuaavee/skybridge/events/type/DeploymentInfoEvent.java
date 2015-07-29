@@ -69,7 +69,16 @@ public class DeploymentInfoEvent extends MarathonEvent {
   @ToString
   public static class Step {
 
-    private String action;
+    private List<Action> actions;
+
+  }
+
+  @Data
+  @EqualsAndHashCode
+  @ToString
+  public static class Action {
+
+    private String type;
 
     private String app;
 
