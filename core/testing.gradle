@@ -1,0 +1,15 @@
+task "unittest"(type: Test) {
+  group = 'Unit tests'
+  description = 'Runs unit tests.'
+  include 'com/nuaavee/skybridge/core/**'
+
+  // ensure we don't overwrite default report directories used by 'test' task
+  reports.html.destination = "${buildDir}/reports/${name}"
+  reports.junitXml.destination = "${buildDir}/${name}-results"
+  binResultsDir = file("${buildDir}/${name}-results/binary/${name}")
+
+  // Configure task dependencies
+  if (System.env.'CI') {
+    tasks.test.dependsOn(it)
+  }
+}

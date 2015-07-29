@@ -1,5 +1,24 @@
 language: java
+sudo: false
+
 jdk:
   - oraclejdk8
-# do not install anything instead return true via unix command true
-install: true
+
+env:
+ - TERM=dumb
+
+before_install:
+ - cp gradle.properties.ci gradle.properties
+
+script:
+ - JAVA_OPTS="-Xmx384m -XX:+UseG1GC -XX:SoftRefLRUPolicyMSPerMB=0 -noverify" ./gradlew check
+
+after_success:
+- ./gradlew coveralls uploadArchives
+
+matrix:
+  fast_finish: true
+
+cache:
+  directories:
+    - $HOME/.gradle

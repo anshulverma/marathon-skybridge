@@ -1,5 +1,5 @@
 dependencies {
-  compile("org.springframework.boot:spring-boot-starter-web:$project.ext.springBootVersion")
+  compile("org.springframework.boot:spring-boot-starter-web:$versions.spring_boot")
   compile('com.fasterxml.jackson.core:jackson-databind:2.6.0-rc4')
   compile('org.projectlombok:lombok:1.16.4')
   compile('com.google.guava:guava:18.0')
@@ -7,7 +7,7 @@ dependencies {
   compile('joda-time:joda-time:2.8.1')
   compile('com.fasterxml.jackson.datatype:jackson-datatype-joda:2.6.0-rc4')
 
-  testCompile("org.springframework.boot:spring-boot-starter-test:$project.ext.springBootVersion")
+  testCompile("org.springframework.boot:spring-boot-starter-test:$versions.spring_boot")
   testCompile('junit:junit:4.12')
   testCompile('commons-io:commons-io:2.4')
 }

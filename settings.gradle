@@ -1,1 +1,3 @@
+rootProject.name = 'skybridge'
+
 include 'events', 'core', 'bootstrap'

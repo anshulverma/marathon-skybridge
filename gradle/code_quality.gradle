@@ -1,0 +1,107 @@
+/**
+ * Configurations for code quality analysis
+ */
+apply plugin: 'org.kordamp.gradle.stats'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'jacoco'
+apply plugin: 'java'
+apply plugin: 'pmd'
+
+configurations {
+  checkstyleConfig
+}
+
+dependencies {
+  checkstyleConfig gradle_plugins.checkstyle
+}
+
+tasks.withType(JavaCompile) {
+  options.encoding = 'UTF-8'
+  options.compilerArgs << '-Xlint:all'
+}
+
+javadoc.options.links('http://docs.oracle.com/javase/8/docs/api/');
+
+checkstyle {
+  showViolations = true
+  sourceSets = [sourceSets.main]
+  toolVersion = "${plugin_versions.checkstyle}"
+  config = resources.text.fromArchiveEntry(configurations.checkstyleConfig, 'google_checks.xml')
+}
+
+findbugs {
+  effort = 'max'
+  sourceSets = [sourceSets.main]
+}
+
+pmd {
+  sourceSets = [sourceSets.main]
+  ruleSets = [/* 'java-basic', */ 'java-braces']
+}
+
+stats {
+  formats = ['xml', 'html', 'txt']
+}
+
+jacocoTestReport {
+  group = 'Coverage reports'
+  description = 'Generates a test coverage report for a project'
+
+  reports {
+    xml.enabled = true
+    html.enabled = true
+  }
+}
+
+tasks.withType(Test) {
+  if (System.properties.containsKey('debug')) {
+    jvmArgs '-Xdebug', '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005'
+  }
+  options {
+    jvmArgs '-XX:+UseG1GC', '-XX:SoftRefLRUPolicyMSPerMB=0', '-noverify'
+  }
+  if (System.env.'CI') {
+    maxHeapSize = '512m'
+    reports.html.enabled = false
+  }
+  testLogging {
+    events 'skipped', 'failed'
+    exceptionFormat 'full'
+    showCauses = true
+    showExceptions = true
+  }
+  jacoco {
+    append = true
+    destinationFile = file("${rootDir}/build/jacoco/jacocoTest.exec")
+    classDumpFile = file("${rootDir}/build/jacoco/classpathdumps")
+  }
+}
+
+tasks.withType(Checkstyle) {
+  enabled = System.properties.containsKey('checkstyle')
+  group = 'Checkstyle'
+  doLast {
+    ant.xslt(in: "${buildDir}/reports/checkstyle/main.xml",
+        style: "//${rootDir}/config/checkstyle/checkstyle.xsl",
+        out:"${buildDir}/reports/checkstyle/checkstyle.html")
+  }
+}
+
+tasks.withType(FindBugs) {
+  enabled = System.properties.containsKey('findbugs')
+  group = 'Findbugs'
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
+}
+
+tasks.withType(Pmd) {
+  enabled = System.properties.containsKey('pmd')
+  group = 'PMD'
+  reports {
+    xml.enabled = false
+    html.enabled = true
+  }
+}

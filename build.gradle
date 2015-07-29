@@ -1,32 +1,82 @@
-allprojects {
-  apply plugin: 'eclipse'
-  apply plugin: 'idea'
-  apply plugin: 'cobertura'
+apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'jacoco'
 
-  group = 'com.nuaavee.mesos.skybridge'
-  version = '0.0.1'
+buildscript {
+  apply from: "${rootDir}/gradle/dependencies.gradle"
+
+  repositories {
+    maven { url 'https://plugins.gradle.org/m2' }
+    mavenCentral()
+    jcenter()
+  }
+
+  dependencies {
+    gradle_plugins.each { name, dependency -> classpath dependency }
+  }
+}
+
+task testReport(type: TestReport, group: 'Build') {
+  description = 'Generates an aggregate test report'
+  destinationDir = file("${buildDir}/reports/allTests")
+}
+
+allprojects {
+  repositories {
+    mavenCentral()
+    jcenter()
+  }
 }
 
 subprojects {
+  apply plugin: 'com.github.ethankhall.semantic-versioning'
+  apply plugin: 'provided-base'
   apply plugin: 'java'
 
-  sourceCompatibility = 1.8
-  targetCompatibility = 1.8
+  apply from: "${rootDir}/gradle/code_quality.gradle"
+  apply from: "${rootDir}/gradle/dependencies.gradle"
+  apply from: "${rootDir}/gradle/object_layout.gradle"
 
-  project.ext {
-    springBootVersion = '1.2.5.RELEASE'
+  sourceCompatibility = JavaVersion.VERSION_1_8
+  targetCompatibility = JavaVersion.VERSION_1_8
+
+  group = 'com.nuaavee.mesos.skybridge'
+  version.with {
+    major = 0 // incompatible API changes
+    minor = 0 // backwards-compatible additions
+    patch = 1 // backwards-compatible bug fixes
+    releaseBuild = rootProject.hasProperty('release')
+  }
+  archivesBaseName = path[1..-1].replaceAll(':', '-').toLowerCase()
+
+  dependencies {
+    provided libraries.jsr305
+
+    testCompile libraries.guava
+    testCompile test_libraries.hamcrest
+    testCompile test_libraries.awaitility
   }
 
-  repositories {
-    mavenCentral()
+  configurations {
+    testArtifacts
   }
 
-  cobertura {
-    coverageIgnoreTrivial = true
-    coverageExcludes = ['.*com.nuaavee.skybridge.bootstrap.SkyBridgeApplication',
-                        '.*com.nuaavee.skybridge.core.CoreConfiguration',
-                        '.*com.nuaavee.skybridge.core.ApplicationConfig',
-                        '.*com.nuaavee.skybridge.events.type.*']
+  tasks.withType(Test) {
+    if (!it.name.startsWith('slow')) {
+      rootProject.testReport.reportOn it
+    } else {
+      puts "GOT SLOW TASK: ${it}"
+    }
+  }
+
+  task testJar(type: Jar, group: "Build") {
+    description = "Assembles a jar archive containing the test classes."
+    baseName = "${archivesBaseName}-test"
+    from sourceSets.test.output
+  }
+
+  artifacts {
+    testArtifacts testJar
   }
 }
 
@@ -34,26 +84,46 @@ repositories {
   mavenCentral()
 }
 
-buildscript {
-  repositories {
-    mavenCentral()
+// Only report code coverage for projects that are distrubuted
+def nonBootstrapProjects = subprojects.findAll { (it.path != ':bootstrap') }
+
+task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
+  description = 'Generates an aggregate report from all subprojects'
+  dependsOn(nonBootstrapProjects.test)
+
+  additionalSourceDirs = files(nonBootstrapProjects.sourceSets.main.allSource.srcDirs)
+  sourceDirectories = files(nonBootstrapProjects.sourceSets.main.allSource.srcDirs)
+  classDirectories = files(nonBootstrapProjects.sourceSets.main.output)
+  executionData = files(nonBootstrapProjects.jacocoTestReport.executionData)
+
+  reports {
+    html.enabled = true
+    xml.enabled = true
   }
-  dependencies {
-    classpath "net.saliman:gradle-cobertura-plugin:2.2.7"
+
+  doFirst {
+    executionData = files(executionData.findAll { it.exists() })
+  }
+
+  afterEvaluate {
+    classDirectories = files(classDirectories.files.collect {
+      fileTree(dir: it, exclude: ['com/nuaavee/skybridge/events/type/**'])
+    })
   }
 }
 
-// collect cobertura reports from subprojects
-def files = subprojects.collect { new File(it.projectDir, '/build/cobertura/cobertura.ser') }
-cobertura {
-  coverageFormats = [ 'xml', 'html' ]
-  coverageMergeDatafiles = files
-  coverageSourceDirs = ['bootstrap/src/main/java/',
-                        'core/src/main/java/',
-                        'events/src/main/java/']
+coveralls {
+  sourceDirs = nonBootstrapProjects.sourceSets.main.allSource.srcDirs.flatten()
+  jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
 }
 
-test.dependsOn(subprojects.test)
+tasks.coveralls {
+  group = 'Coverage reports'
+  description = 'Uploads the aggregated coverage report to Coveralls'
+
+  dependsOn jacocoRootReport
+  onlyIf { System.env.'CI' }
+}
 
 task wrapper(type: Wrapper) {
   gradleVersion = '2.5'

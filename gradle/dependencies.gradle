@@ -1,0 +1,80 @@
+ext {
+  versions = [
+      error_prone_annotations: '2.0.4',
+      guava: '19.0-rc1',
+      jool: '0.9.6',
+      joor: '0.9.5',
+      jsr305: '3.0.0',
+      spring_boot: '1.2.5.RELEASE'
+  ]
+  test_versions = [
+      awaitility: '1.6.3',
+      easymock: '3.3.1',
+      hamcrest: '2.0.0.0',
+      jimfs: '1.0',
+      junit: '4.12',
+      mockito: '2.0.31-beta',
+  ]
+  benchmark_versions = [
+      jamm: '0.3.1',
+      java_object_layout: '0.3.2',
+      koloboke: '0.6.7',
+      slf4j: '1.7.12',
+  ]
+  plugin_versions = [
+      checkstyle: '6.7',
+      coveralls: '2.4.0',
+      extra_conf: '2.2.2',
+      error_prone: '0.0.7.1',
+      jmh: '0.2.0',
+      versions: '0.11.3',
+      semantic_versioning: '1.1.0',
+      stats: '0.1.5',
+  ]
+
+  libraries = [
+      error_prone_annotations: "com.google.errorprone:error_prone_annotations:${versions.error_prone_annotations}",
+      guava: "com.google.guava:guava:${versions.guava}",
+      jool: "org.jooq:jool:${versions.jool}",
+      joor: "org.jooq:joor:${versions.joor}",
+      jsr305: "com.google.code.findbugs:jsr305:${versions.jsr305}",
+  ]
+  test_libraries = [
+      awaitility: dependencies.create("com.jayway.awaitility:awaitility:${test_versions.awaitility}") {
+        exclude group: 'org.hamcrest'
+      },
+      easymock: "org.easymock:easymock:${test_versions.easymock}",
+      guava_testlib: dependencies.create("com.google.guava:guava-testlib:${versions.guava}") {
+        exclude group: 'com.google.truth'
+        exclude group: 'junit'
+      },
+      hamcrest: "org.hamcrest:java-hamcrest:${test_versions.hamcrest}",
+      jimfs: "com.google.jimfs:jimfs:${test_versions.jimfs}",
+      junit: "junit:junit:${test_versions.junit}",
+      mockito: dependencies.create("org.mockito:mockito-core:${test_versions.mockito}") {
+        exclude group: 'org.hamcrest'
+      },
+      truth: "com.google.truth:truth:${test_versions.truth}",
+  ]
+  benchmark_libraries = [
+      jamm: "com.github.jbellis:jamm:${benchmark_versions.jamm}",
+      java_object_layout: "org.openjdk.jol:jol-cli:${benchmark_versions.java_object_layout}",
+      koloboke: [
+          "net.openhft:koloboke-api-jdk8:${benchmark_versions.koloboke}",
+          "net.openhft:koloboke-impl-jdk8:${benchmark_versions.koloboke}",
+      ],
+      slf4j_nop: "org.slf4j:slf4j-nop:${benchmark_versions.slf4j}",
+  ]
+  gradle_plugins = [
+      checkstyle: dependencies.create("com.puppycrawl.tools:checkstyle:${plugin_versions.checkstyle}") {
+        transitive = false
+      },
+      coveralls: "org.kt3k.gradle.plugin:coveralls-gradle-plugin:${plugin_versions.coveralls}",
+      extra_conf: "com.netflix.nebula:gradle-extra-configurations-plugin:${plugin_versions.extra_conf}",
+      error_prone: "net.ltgt.gradle:gradle-errorprone-plugin:${plugin_versions.error_prone}",
+      jmh: "me.champeau.gradle:jmh-gradle-plugin:${plugin_versions.jmh}",
+      semantic_versioning: "io.ehdev:gradle-semantic-versioning:${plugin_versions.semantic_versioning}",
+      stats: "org.kordamp.gradle:stats-gradle-plugin:${plugin_versions.stats}",
+      versions: "com.github.ben-manes:gradle-versions-plugin:${plugin_versions.versions}",
+  ]
+}
