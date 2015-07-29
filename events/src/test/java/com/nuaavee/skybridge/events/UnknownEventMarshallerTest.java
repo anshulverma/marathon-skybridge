@@ -22,7 +22,7 @@ public class UnknownEventMarshallerTest {
       new EventMarshaller().unmarshall("{\"eventType\":\"this_is_unknown\"}");
       Assert.fail("expected " + UnknownEventTypeException.class + " to be thrown");
     } catch (UnknownEventTypeException e) {
-      Assert.assertEquals("event type in error should be null", "this_is_unknown", e.getEventType());
+      Assert.assertEquals("event type in error should be 'this_is_unknown'", "this_is_unknown", e.getEventType());
     }
   }
 
