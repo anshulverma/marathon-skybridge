@@ -107,7 +107,12 @@ task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
 
   afterEvaluate {
     classDirectories = files(classDirectories.files.collect {
-      fileTree(dir: it, exclude: ['com/nuaavee/skybridge/events/type/**'])
+      fileTree(dir: it, exclude: [
+          'com/nuaavee/skybridge/events/type/**',
+          'com/nuaavee/skybridge/core/CoreConfiguration**',
+          'com/nuaavee/skybridge/core/ApplicationConfig**',
+          'com/nuaavee/skybridge/core/RestResponse**',
+      ])
     })
   }
 }
