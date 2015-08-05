@@ -40,7 +40,7 @@ subprojects {
   sourceCompatibility = JavaVersion.VERSION_1_8
   targetCompatibility = JavaVersion.VERSION_1_8
 
-  group = 'com.nuaavee.mesos.skybridge'
+  group = 'com.nuaavee.skybridge'
   version.with {
     major = 0 // incompatible API changes
     minor = 0 // backwards-compatible additions

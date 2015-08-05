@@ -12,7 +12,7 @@ apply plugin: 'spring-boot'
 description = 'bootstrap the application'
 
 jar {
-  baseName = 'mesos-skydns-bridge'
+  baseName = 'skybridge'
   version = '0.0.1'
 }
 

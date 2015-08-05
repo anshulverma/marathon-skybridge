@@ -11,7 +11,8 @@
 *.class
 
 # Gradle
-.gradle
+2.3/
+2.5/
 build/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
