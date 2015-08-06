@@ -16,13 +16,18 @@ public class StatusUpdateEventListener implements EventListener<StatusUpdateEven
   public void process(StatusUpdateEvent event) {
     switch (event.getTaskStatus()) {
       case TASK_RUNNING:
-        LOG.info("task '{}' running on ports '{}' under '{}'", event.getAppId(), event.getPorts(), event.getHost());
+        LOG.info("task '{}' -- running on ports '{}' under '{}'", event.getTaskId(), event.getPorts(), event.getHost());
         break;
       case TASK_KILLED:
-        LOG.info("task '{}' killed", event.getAppId());
+        LOG.info("task '{}' -- killed under '{}'", event.getTaskId(), event.getHost());
+        break;
+      case TASK_FAILED:
+        LOG.info("task '{}' -- failed to run under '{}' due to '{}'",
+                 event.getTaskId(), event.getHost(), event.getMessage());
         break;
       default:
-        LOG.info("ignored status update event for '{}' since its status is '{}'",
+        LOG.info("ignored status update event for task '{}' named '{}' since its status is '{}'",
+                 event.getTaskId(),
                  event.getAppId(),
                  event.getTaskStatus());
     }
