@@ -5,6 +5,3 @@
 
 Bridge gap between mesos and skydns through marathon
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/anshulverma/marathon-skybridge/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
