@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.nuaavee.skybridge.events.MarathonEventSubscriber;
 
 @Component
-public class EventEndpointRegistrar {
+public class EventEndpointRegistrator {
   private static final Logger LOG = LoggerFactory.getLogger(CoreConfiguration.class);
 
   @Autowired

@@ -22,4 +22,8 @@ public class ApplicationConfig {
 
   @Value("${server.port}")
   private String serverPort;
+
+  @Value("${etcd.machines}")
+  private String etcdMachines;
+
 }
